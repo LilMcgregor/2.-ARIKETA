@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Formula 1</title>
+    <style>
+        body { font-family: Arial, sans-serif; color: #141212dd; background-color: rgb(237, 113, 113);}
+        nav a ¨{font-weight:bold;color:rgb(0, 183, 183)}
+        h1 { text-align: center; color: #000000; }
+        h2 { font-size:20px; color: black}
+        .txikia {width: 150px;cursor: pointer;}
+        .handia {width: 400px;}
+    </style>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+</head> 
+<body>
+    <h1>Zirkuitoak</h1>
+    <nav>
+        <a href="sarrera.html">Sarrera</a>
+        <a href="lehena.html">Pilotoak</a>
+        <a href="hirugarrena.html">Markak</a>
+    </nav>
+    <h2>Irudia</h2>
+    <img src="https://storage.googleapis.com/pod_public/750/137330.jpg" alt="Irudi txikia" onclick="handitu(this)" class="txikia">
+ <script>
+        function handitu(irudia) { if (irudia.classList.contains("txikia")) 
+        {irudia.classList.remove("txikia");irudia.classList.add("handia");} 
+        else {irudia.classList.remove("handia");irudia.classList.add("txikia");}
+        }
+  </script>
+    <br>
+    <h2>Bideoa</h2>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/iwB0_lview4?si=rnTGE2_aX2ji-dKB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <h2>Audioa</h2>
+    <audio src="audio.mp3" controls autoplay loop></audio>
+
+</body>
+
+
+</html>

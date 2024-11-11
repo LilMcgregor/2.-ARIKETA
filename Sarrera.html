@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Formula 1</title>
+    <style>
+        body { font-family: Arial, sans-serif; color: #141212dd; background-color: rgb(237, 114, 113);}
+        nav a ¨{font-weight:bold;color:rgb(0, 183, 183)}
+        h1 { text-align: center; color: #000000; }
+        h2 { font-size:20px; color: black}
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #333;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #fff;
+        }
+        canvas {
+            background-color: #000;
+            border: 2px solid #fff;
+        }
+    </style>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Memoria</title>
+    
+</head>
+<body>
+    <h1>Sarrera</h1>
+    <nav>
+        <a href="lehena.html">Pilotoak</a>
+        <a href="bigarrena.html">Zirkuitoak</a>
+        <a href="hirugarrena.html">Markak</a>
+    </nav>
+    <marquee behavior="scroll" direction="left">
+        Webgune honetan Formula bati buruz hitz egiten da
+    </marquee>
+    <canvas id="snakeGame" width="400" height="400"></canvas>
+
+    <script>
+        // Configuración del juego
+        const canvas = document.getElementById('snakeGame');
+        const ctx = canvas.getContext('2d');
+        const box = 20;
+        const canvasSize = canvas.width / box;
+        
+        // Variables para la serpiente
+        let snake = [];
+        snake[0] = { x: 10 * box, y: 10 * box };
+        let direction = 'RIGHT';
+
+        // Comida
+        let food = {
+            x: Math.floor(Math.random() * canvasSize) * box,
+            y: Math.floor(Math.random() * canvasSize) * box
+        };
+
+        // Puntuación
+        let score = 0;
+
+        // Control de direcciones
+        document.addEventListener('keydown', setDirection);
+
+        function setDirection(event) {
+            if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
+            else if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
+            else if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
+            else if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
+        }
+
+        // Dibuja la comida
+        function drawFood() {
+            ctx.fillStyle = 'red';
+            ctx.fillRect(food.x, food.y, box, box);
+        }
+
+        // Dibuja la serpiente
+        function drawSnake() {
+            for (let i = 0; i < snake.length; i++) {
+                ctx.fillStyle = i === 0 ? 'lightgreen' : 'green';
+                ctx.fillRect(snake[i].x, snake[i].y, box, box);
+                ctx.strokeStyle = 'darkgreen';
+                ctx.strokeRect(snake[i].x, snake[i].y, box, box);
+            }
+        }
+
+        // Comprueba colisión
+        function collision(head, array) {
+            for (let i = 0; i < array.length; i++) {
+                if (head.x === array[i].x && head.y === array[i].y) return true;
+            }
+            return false;
+        }
+
+        // Lógica principal del juego
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            drawFood();
+            drawSnake();
+
+            // Posición de la cabeza de la serpiente
+            let snakeX = snake[0].x;
+            let snakeY = snake[0].y;
+
+            // Movimiento de la serpiente
+            if (direction === 'LEFT') snakeX -= box;
+            if (direction === 'UP') snakeY -= box;
+            if (direction === 'RIGHT') snakeX += box;
+            if (direction === 'DOWN') snakeY += box;
+
+            // Si la serpiente come la comida
+            if (snakeX === food.x && snakeY === food.y) {
+                score++;
+                food = {
+                    x: Math.floor(Math.random() * canvasSize) * box,
+                    y: Math.floor(Math.random() * canvasSize) * box
+                };
+            } else {
+                // Elimina la cola
+                snake.pop();
+            }
+
+            // Nueva cabeza de la serpiente
+            const newHead = { x: snakeX, y: snakeY };
+
+            // Game over: la serpiente se golpea o golpea el borde
+            if (
+                snakeX < 0 || snakeX >= canvas.width || 
+                snakeY < 0 || snakeY >= canvas.height || 
+                collision(newHead, snake)
+            ) {
+                clearInterval(game);
+                alert(`Game Over! Tu puntuación fue: ${score}`);
+                return;
+            }
+
+            snake.unshift(newHead);
+
+            // Puntuación
+            ctx.fillStyle = 'white';
+            ctx.font = '20px Arial';
+            ctx.fillText(`Puntuación: ${score}`, 10, 20);
+        }
+
+        // Intervalo del juego
+        const game = setInterval(draw, 100);
+    </script>
+</body>
+</html>
